@@ -36,25 +36,27 @@ class NPuzzleInstance:
         # Ex.: np.roll([0, 1, 2, ..., m*n-1], -1) --> [1, 2, ..., m*n-1, 0]
         return g_state
 
-    def calculate_distance(self):
+    def distance_to_goal_state(self, some_state=None):
+
+        # If some_state is None, set it to self.current_state
+        some_state = some_state if some_state is not None else self.current_state
 
         total_distance = 0
         total_diferents = 0
 
         for i in range(self.m):
             for j in range(self.n):
-                if self.initial_state[i, j] != self.goal_state[i, j]:
+                if some_state[i, j] != self.goal_state[i, j]:
                     total_diferents += 1
-                    g_i, g_j = np.where(self.goal_state == self.initial_state[i, j])
+                    g_i, g_j = np.where(self.goal_state == some_state[i, j])
                     g_i, g_j = g_i[0], g_j[0]
 
-                    dx = max(i, g_i) - min(i, g_i)
-                    dy = max(j, g_j) - min(j, g_j)
+                    dx = abs(i - g_i)
+                    dy = abs(j - g_j)
 
                     total_distance += dx + dy
 
-        print('Total distance = {}'.format(total_distance))
-        print('Total diferents = {}'.format(total_diferents))
+        return total_distance, total_diferents
 
     def neighbors(self):
         x, y = np.where(self.current_state == 0)
