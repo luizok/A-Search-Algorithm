@@ -15,6 +15,9 @@ class MinHeap:
     def pop(self):
         return heapq.heappop(self.elements)[1]
 
+    def get_min(self):
+        return self.elements[0]
+
     def __rec_print_heap(self, idx, depth, fmt_str=''):
         if idx < len(self.elements):
             fmt_str += '{}{}\n'.format(depth * '\t', self.elements[idx])
