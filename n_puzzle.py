@@ -3,15 +3,15 @@ import numpy as np
 
 class NPuzzleInstance:
 
-    def __init__(self, m=3, n=None, current_state=None, goal_state=None):
+    def __init__(self, m=3, n=None, initial_state=None, goal_state=None):
         self.m = m
         self.n = n if n else m  # if n is None, set n = m
 
-        # If user wanna pass an especific current_state
-        if current_state:
-            self.current_state = current_state
+        # If user wanna pass an especific initial_state
+        if initial_state:
+            self.initial_state = initial_state
         else:
-            self.current_state = self.__build_current_state()
+            self.initial_state = self.__build_initial_state()
 
         # If user wanna pass an especific goal_state
         if goal_state:
@@ -19,7 +19,7 @@ class NPuzzleInstance:
         else:
             self.goal_state = self.__build_goal_state()
 
-    def __build_current_state(self):
+    def __build_initial_state(self):
         c_state = np.arange(self.m * self. n)
         np.random.shuffle(c_state)
         c_state = np.asarray(c_state).reshape((self.m, self.n))
@@ -40,9 +40,9 @@ class NPuzzleInstance:
 
         for i in range(self.m):
             for j in range(self.n):
-                if self.current_state[i, j] != self.goal_state[i, j]:
+                if self.initial_state[i, j] != self.goal_state[i, j]:
                     total_diferents += 1
-                    g_i, g_j = np.where(self.goal_state == self.current_state[i, j])
+                    g_i, g_j = np.where(self.goal_state == self.initial_state[i, j])
                     g_i, g_j = g_i[0], g_j[0]
 
                     dx = max(i, g_i) - min(i, g_i)
@@ -53,10 +53,9 @@ class NPuzzleInstance:
         print('Total distance = {}'.format(total_distance))
         print('Total diferents = {}'.format(total_diferents))
 
-
     def __str__(self):
         shape_str = str(self.goal_state.shape)
-        i_state_str = str(self.current_state).replace(' 0', ' _').replace('[0', '[_')
+        i_state_str = str(self.initial_state).replace(' 0', ' _').replace('[0', '[_')
         g_state_str = str(self.goal_state).replace(' 0', ' _').replace('[0', '[_')
 
         fmt_str = 'Dimensions: {}\nCurrent State:\n{}\n\nGoal State:\n{}\n'.format(
