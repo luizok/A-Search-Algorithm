@@ -19,6 +19,8 @@ class NPuzzleInstance:
         else:
             self.goal_state = self.__build_goal_state()
 
+        self.current_state = self.initial_state
+
     def __build_initial_state(self):
         c_state = np.arange(self.m * self. n)
         np.random.shuffle(c_state)
