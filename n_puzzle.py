@@ -58,6 +58,9 @@ class NPuzzleInstance:
 
         return total_distance, total_diferents
 
+    def is_solved(self):
+        return np.array_equal(self.current_state, self.goal_state)
+
     def neighbors(self):
         x, y = np.where(self.current_state == 0)
         x, y = x[0], y[0]
