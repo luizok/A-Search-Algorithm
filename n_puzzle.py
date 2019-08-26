@@ -6,6 +6,7 @@ class NPuzzleInstance:
     def __init__(self, m=3, n=None, initial_state=None, goal_state=None):
         self.m = m
         self.n = n if n else m  # if n is None, set n = m
+        self.neighbors_indexes = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
         # If user wanna pass an especific initial_state
         if initial_state:
@@ -54,6 +55,17 @@ class NPuzzleInstance:
 
         print('Total distance = {}'.format(total_distance))
         print('Total diferents = {}'.format(total_diferents))
+
+    def neighbors(self):
+        x, y = np.where(self.current_state == 0)
+        x, y = x[0], y[0]
+
+        for (i, j) in self.neighbors_indexes:
+            if 0 <= x + i < self.m and 0 <= y + j < self.n:
+                    neigh = np.copy(self.current_state)
+                    neigh[x + i, y + j], neigh[x, y] = neigh[x, y], neigh[x + i, y + j]
+
+                    yield neigh
 
     def __str__(self):
         shape_str = str(self.goal_state.shape)
