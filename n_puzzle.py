@@ -23,7 +23,6 @@ class NPuzzleInstance:
         self.current_state = self.initial_state
 
     def __build_initial_state(self):
-        c_state = np.arange(self.m * self. n)
         np.random.shuffle(c_state)
         c_state = np.asarray(c_state).reshape((self.m, self.n))
 
@@ -36,18 +35,16 @@ class NPuzzleInstance:
         # Ex.: np.roll([0, 1, 2, ..., m*n-1], -1) --> [1, 2, ..., m*n-1, 0]
         return g_state
 
-    def distance_to_goal_state(self, some_state=None):
-
         # If some_state is None, set it to self.current_state
         some_state = some_state if some_state is not None else self.current_state
 
         total_distance = 0
-        total_diferents = 0
+        # total_diferents = 0
 
         for i in range(self.m):
             for j in range(self.n):
                 if some_state[i, j] != self.goal_state[i, j]:
-                    total_diferents += 1
+                    # total_diferents += 1
                     g_i, g_j = np.where(self.goal_state == some_state[i, j])
                     g_i, g_j = g_i[0], g_j[0]
 
@@ -56,7 +53,7 @@ class NPuzzleInstance:
 
                     total_distance += dx + dy
 
-        return total_distance, total_diferents
+        return total_distance  # total_diferents
 
     def is_solved(self):
         return np.array_equal(self.current_state, self.goal_state)
