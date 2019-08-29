@@ -5,6 +5,13 @@ from state import State
 class NPuzzleInstance:
 
     def __init__(self, m=3, n=None, initial_state=None, goal_state=None):
+        '''
+        Creates a new instance of the N-Puzzle game, where m is the
+        number of rows and n is the number of columns. If n is not provided,
+        n will be equals to m. The user can provide an initial_state and a
+        goal_state, if they're not provided, the goal_state state will be
+        the default and initial_state will be random
+        '''
         self.m = m
         self.n = n if n else m  # if n is None, set n = m
         self.neighbors_indexes = [(-1, 0), (0, 1), (1, 0), (0, -1)]
@@ -25,12 +32,30 @@ class NPuzzleInstance:
         self.current_state = self.initial_state
 
     def __build_initial_state(self):
+        '''
+        Generates a random matrix m x n.Called when the user does not provide
+        an initial_state. The values of this matrix belongs [0, m*n)
+        * 0 represents the empty place
+        '''
+        c_state = np.arange(self.m * self.n)
         np.random.shuffle(c_state)
         c_state = np.asarray(c_state).reshape((self.m, self.n))
 
         return State(c_state)
 
     def __build_goal_state(self):
+        '''
+        Generates the default matrix m x n to be the goal_state.
+        The default goal_state is:
+        |    1    ,     2    , ...,   n |
+        |   n+1   ,    n+2   , ..., 2*n |
+        |  2*n+1  ,   2*n+2  , ..., 3*n |
+                           .
+                           .
+                           .
+        |(m-1)*n+1, (m-1)*n+2, ...,   0 |
+        * 0 represents the empty place
+        '''
         g_state = np.arange(self.m * self.n).reshape((self.m, self.n))
         g_state = np.roll(g_state, -1)
         # The line above shifts the 0 (empty space) to the last position
@@ -38,6 +63,12 @@ class NPuzzleInstance:
         return State(g_state)
 
     def heuristic(self, some_state=None):
+        '''
+        Calculates the number of steps required for each cell out of place to be
+        in place compared to his position in goal_state. The possible movements
+        are UP, DOWN, LEFT and RIGHT. Also, calculates the number of cells out of place*.
+        * Uncomment the lines 75 and 89 for this purpose
+        '''
         # If some_state is None, set it to self.current_state
         some_state = some_state if some_state is not None else self.current_state
 
@@ -58,9 +89,16 @@ class NPuzzleInstance:
         return total_distance  # total_diferents
 
     def is_solved(self):
+        '''
+        Check if the current_state is equals to the goal_state
+        '''
         return self.current_state == self.goal_state
 
     def neighbors(self):
+        '''
+        Iterates over all possible neighbors of current_state, considering the possible
+        movements and the size of the grid (matrix).
+        '''
         x, y = self.current_state.get_indexes(0)
 
         for (i, j) in self.neighbors_indexes:
