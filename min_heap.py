@@ -15,6 +15,17 @@ class MinHeap:
     def pop(self):
         return heapq.heappop(self.elements)[1]
 
+    def remove(self, item):
+        remove = None
+        for i, obj in enumerate(self.elements):
+            if item == obj[1]:
+                removed = self.elements.pop(i)
+                break
+
+        heapq.heapify(self.elements)
+
+        return removed
+
     def get_min(self):
         return self.elements[0]
 
