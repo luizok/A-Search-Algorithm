@@ -1,4 +1,5 @@
 import numpy as np
+from state import State
 
 
 class NPuzzleInstance:
@@ -8,17 +9,18 @@ class NPuzzleInstance:
         self.n = n if n else m  # if n is None, set n = m
         self.neighbors_indexes = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
-        # If user wanna pass an especific initial_state
-        if initial_state:
-            self.initial_state = initial_state
-        else:
-            self.initial_state = self.__build_initial_state()
-
         # If user wanna pass an especific goal_state
         if goal_state:
             self.goal_state = goal_state
         else:
             self.goal_state = self.__build_goal_state()
+
+        # If user wanna pass an especific initial_state
+        if initial_state:
+            self.initial_state = initial_state
+        else:
+            self.initial_state = self.__build_initial_state()
+            self.initial_state.heuristic_value = self.heuristic(self.initial_state)
 
         self.current_state = self.initial_state
 
