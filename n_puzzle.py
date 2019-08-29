@@ -36,6 +36,8 @@ class NPuzzleInstance:
         # The line above shifts the 0 (empty space) to the last position
         # Ex.: np.roll([0, 1, 2, ..., m*n-1], -1) --> [1, 2, ..., m*n-1, 0]
         return State(g_state)
+
+    def heuristic(self, some_state=None):
         # If some_state is None, set it to self.current_state
         some_state = some_state if some_state is not None else self.current_state
 
