@@ -66,19 +66,17 @@ class NPuzzleInstance:
         '''
         Calculates the number of steps required for each cell out of place to be
         in place compared to his position in goal_state. The possible movements
-        are UP, DOWN, LEFT and RIGHT. Also, calculates the number of cells out of place*.
-        * Uncomment the lines 75 and 89 for this purpose
+        are UP, DOWN, LEFT and RIGHT.
         '''
         # If some_state is None, set it to self.current_state
         some_state = some_state if some_state is not None else self.current_state
 
         total_distance = 0
-        # total_diferents = 0
 
         for i in range(self.m):
             for j in range(self.n):
                 if some_state[i, j] != self.goal_state[i, j]:
-                    # total_diferents += 1
+
                     g_i, g_j = self.goal_state.get_indexes(some_state[i, j])
 
                     dx = abs(i - g_i)
@@ -86,7 +84,7 @@ class NPuzzleInstance:
 
                     total_distance += dx + dy
 
-        return total_distance  # total_diferents
+        return total_distance
 
     def is_solved(self):
         '''
