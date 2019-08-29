@@ -40,3 +40,14 @@ class MinHeap:
     def __str__(self):
         fmt_str = self.__rec_print_heap(0, 0)
         return fmt_str
+
+    def __iter__(self):
+        self.curr_idx = 0
+        return self
+
+    def __next__(self):
+        if self.curr_idx < len(self.elements):
+            self.curr_idx += 1
+            return self.elements[self.curr_idx-1]
+
+        raise StopIteration
