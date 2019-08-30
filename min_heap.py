@@ -37,6 +37,13 @@ class MinHeap:
 
         return fmt_str
 
+    def __contains__(self, item):
+        for _, element in self.elements:
+            if item == element:
+                return True
+
+        return False
+
     def __str__(self):
         fmt_str = self.__rec_print_heap(0, 0)
         return fmt_str
