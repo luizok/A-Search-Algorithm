@@ -28,6 +28,11 @@ class State:
         x, y = np.where(self.matrix == item)
         return x[0], y[0]
 
+    def get_func_values_as_str(self):
+        return 'f(n) = g(n) + h(n) = {} + {} = {}'.format(
+            self.greedy_value, self.heuristic_value, self.get_total_cost()
+        )
+
     def __getitem__(self, index):
         return self.matrix[index[0], index[1]]
 
@@ -52,13 +57,11 @@ class State:
         '''
         return self.get_total_cost() > state.get_total_cost()
 
+    def __hash__(self):
+        return hash(self.__repr__())
+
     def __str__(self):
-        return '{}\nf(n) = g(n) + h(n) = {} + {} = {}\n'.format(
-                str(self.matrix).replace(' 0', ' _').replace('[0', '[_'),
-                str(self.greedy_value),
-                str(self.heuristic_value),
-                self.get_total_cost()
-            )
+        return str(self.matrix).replace(' 0', ' _').replace('[0', '[_')
 
     def __repr__(self):
         return '\033[33m{}\033[m'.format(
