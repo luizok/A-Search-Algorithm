@@ -52,6 +52,9 @@ class State:
         '''
         return self.get_total_cost() > state.get_total_cost()
 
+    def __hash__(self):
+        return hash(self.__repr__())
+
     def __str__(self):
         return '{}\nf(n) = g(n) + h(n) = {} + {} = {}\n'.format(
                 str(self.matrix).replace(' 0', ' _').replace('[0', '[_'),
