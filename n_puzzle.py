@@ -111,6 +111,8 @@ class NPuzzleInstance:
 
     def __str__(self):
 
-        return 'Dimensions: {}\nInitial State:\n{}\n\nGoal State:\n{}\n'.format(
-            self.goal_state.shape, str(self.initial_state), str(self.goal_state)
+        return 'Dimensions: {}\nInitial State:\n{}\n{}\n\nGoal State:\n{}\n{}\n'.format(
+            self.goal_state.shape,
+            self.initial_state, self.initial_state.get_func_values_as_str(),
+            self.goal_state, self.goal_state.get_func_values_as_str()
         )
