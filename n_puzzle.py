@@ -24,7 +24,9 @@ class NPuzzleInstance:
 
         # If user wanna pass an especific initial_state
         if initial_state:
-            self.initial_state = initial_state
+            matrix = np.asarray(initial_state)
+            self.initial_state = State(matrix)
+            self.initial_state.heuristic_value = self.heuristic(self.initial_state)
         else:
             self.initial_state = self.__build_initial_state()
             self.initial_state.heuristic_value = self.heuristic(self.initial_state)
