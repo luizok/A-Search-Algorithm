@@ -2,7 +2,6 @@ from new_state import *
 
 
 def a_star_search(start, goal, m, n):
-
     # The set of discovered nodes that need to be (re-)expanded.
     # Initially, only the start node is known.
     open_set = { start }  # openSet := {start}
@@ -52,14 +51,11 @@ m = 3
 n = 3
 
 
-g = np.arange(m * n)
-g = np.roll(g, -1)
-G = State(g, m, n)
 
 
-c = np.arange(m * n)
-np.random.shuffle(c)
-C = State(c, m, n)
+# c = np.arange(m * n)
+# np.random.shuffle(c)
+# C = State(c, m, n)
 
 
 if __name__ == '__main__':
@@ -71,5 +67,13 @@ if __name__ == '__main__':
     ]
 
     for inst in instances:
+
+        g = np.arange(len(inst) * len(inst[0]))
+        g = np.roll(g, -1)
+        G = State(g, len(inst), len(inst[0]))
+
+        print(G)
+
         I = State(np.array(inst).flatten(), len(inst), len(inst[0]))
-        print(a_star_search(I, G, m, n))
+        print(I)
+        print(a_star_search(I, G, len(inst), len(inst[0])))

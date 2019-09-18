@@ -16,7 +16,7 @@ class State:
 
     def __str__(self):
         fmt_str = str(self.matrix.reshape(self.m, self.n))
-        return fmt_str.replace('[0', '[_').replace('0', '_')
+        return fmt_str.replace('[0', '[_').replace(' 0', ' _')
 
     def __getitem__(self, idx):
         return self.matrix[idx]
