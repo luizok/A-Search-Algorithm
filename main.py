@@ -11,13 +11,12 @@ import os
 import sys
 
 
-_max = 10
-my_range = list(range(2, _max+1))
+_max = 5
+my_range = list(range(3, _max+1))
 print_sol = False
 plt.style.use('dark_background')
 n_samples = 1
 algs = ['ASTAR', 'BFS']
-
 
 
 def plot_graphs(times):
@@ -27,7 +26,7 @@ def plot_graphs(times):
 
     t = [i+1 for i in range(1, _max)]
     plt.title(r'$N-Puzzle\ Game\ Solving\ Time$')
-    plt.xlabel(r'$Mean\ Of\ 10\ Samples\ Of\ Size\ x^2$'.format(n_samples))
+    plt.xlabel(r'$Mean\ Of\ 5\ Samples\ Of\ Size\ x^2$'.format(n_samples))
     plt.ylabel(r'$Spent\ Time\ (in\ secs)$')
 
     plt.xticks(range(1, _max+2))
@@ -59,6 +58,8 @@ def statistics():
             for alg in algs
         }
 
+        P = NPuzzleInstance(i)
+
         for j, alg in enumerate(algs):
             for k in range(n_samples):
 
@@ -67,22 +68,11 @@ def statistics():
                     end='\r'
                 )
 
-                if print_sol: print(30 * '-')
-                P = NPuzzleInstance(i)
-                if print_sol: print(str(P))
-
                 states, moves, time = algorithm(P, alg).get_solution()
-                if print_sol: print('')
-                if print_sol: print(moves)
                 if states:
-                    if print_sol: print('FOUND SOLUTION')
-                    if print_sol: print(time)
-                    times[alg][i-2][k] = time.total_seconds()
+                    times[alg][i-3][k] = time.total_seconds()
 
-                else:
-                    if print_sol: print('NOT FOUND')
-
-                if print_sol: print('')
+            P.reset()
         
         print('')
     plot_graphs(times)
@@ -93,8 +83,9 @@ if __name__ == '__main__':
     try:
         n_rows = int(sys.argv[1])
         n_cols = int(sys.argv[2])
+        rand = int(sys.argv[3])
 
-        P = NPuzzleInstance(n_rows, n_cols)
+        P = NPuzzleInstance(n_rows, n_cols, rand=rand)
         print(str(P))
 
         for alg in algs:
@@ -123,5 +114,5 @@ if __name__ == '__main__':
             P.reset()
 
     except:
-        print('Usage: {} n_rows n_cols'.format(sys.argv[0]))
+        print('Usage: {} n_rows n_cols rand_moves'.format(sys.argv[0]))
 

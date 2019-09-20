@@ -4,7 +4,7 @@ from state import State
 
 class NPuzzleInstance:
 
-    def __init__(self, m=3, n=None, initial_state=None, goal_state=None):
+    def __init__(self, m=3, n=None, initial_state=None, goal_state=None, rand=-1):
         '''
         Creates a new instance of the N-Puzzle game, where m is the
         number of rows and n is the number of columns. If n is not provided,
@@ -18,6 +18,7 @@ class NPuzzleInstance:
         self.solution_states = None
         self.solution_moves = None
         self.spent_time = 0
+        self.randness = rand if rand >= 0 else self.m * self.n
 
         # If user wanna pass an especific goal_state
         if goal_state:
@@ -46,7 +47,7 @@ class NPuzzleInstance:
         c_state = np.roll(c_state, -1)
 
         x, y = self.m-1, self.n-1
-        for _ in range(self.m * self.n * 10):
+        for _ in range(self.randness):
 
             n_idx = np.random.choice([i for i in range(len(self.neighbors_indexes))])
             nx, ny = self.neighbors_indexes[n_idx]
