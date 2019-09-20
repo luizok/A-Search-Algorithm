@@ -95,28 +95,32 @@ if __name__ == '__main__':
         n_cols = int(sys.argv[2])
 
         P = NPuzzleInstance(n_rows, n_cols)
-
-        states, moves, time = algorithm(P, sys.argv[3]).get_solution()
-
-        print(30 * '-')
         print(str(P))
-        print('')
-        if states:
-            print('FOUND SOLUTION IN: ' + str(time))
-            print('MOVEMENTS REQUIRED: ' +str(len(moves)))
-            print('MOVES: ' + str(moves))
 
-            size = len(str(states[0]).split('\n')[0])
+        for alg in algs:
 
-            for i, state in enumerate(states):
-                print(state)
-                print('')
-                if i < len(moves): print(moves[i].center(size, ' '))
-                print('')
-        else:
-            print('NOT FOUND')
+            print(30 * '-')
+            print('ALGORITHM USED: ' + alg)
 
-        print('')
+            states, moves, time = algorithm(P, alg).get_solution()
+
+            if states:
+                print('FOUND SOLUTION IN: ' + str(time))
+                print('MOVEMENTS REQUIRED: ' +str(len(moves)))
+                print('MOVES: ' + str(moves))
+
+                size = len(str(states[0]).split('\n')[0])
+
+                for i, state in enumerate(states):
+                    print(state)
+                    print('')
+                    if i < len(moves): print(moves[i].center(size, ' '))
+                    print('')
+            else:
+                print('NOT FOUND')
+
+            print('')
+
     except:
-        print('Usage: {} n_rows n_cols [ASTAR|BFS]'.format(sys.argv[0]))
+        print('Usage: {} n_rows n_cols'.format(sys.argv[0]))
 
