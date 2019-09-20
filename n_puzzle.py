@@ -42,9 +42,23 @@ class NPuzzleInstance:
         an initial_state. The values of this matrix belongs [0, m*n)
         * 0 represents the empty place
         '''
-        c_state = np.arange(self.m * self.n)
-        np.random.shuffle(c_state)
-        c_state = np.asarray(c_state).reshape((self.m, self.n))
+        c_state = np.arange(self.m * self.n).reshape((self.m, self.n))
+        c_state = np.roll(c_state, -1)
+
+        x, y = self.m-1, self.n-1
+        for _ in range(self.m * self.n * 100):
+
+            n_idx = np.random.choice([i for i in range(len(self.neighbors_indexes))])
+            nx, ny = self.neighbors_indexes[n_idx]
+            nx, ny = x + nx, y + ny
+
+            while not(0 <= nx < self.m and 0 <= ny < self.n):
+                n_idx = np.random.choice([i for i in range(len(self.neighbors_indexes))])
+                nx, ny = self.neighbors_indexes[n_idx]
+                nx, ny = x + nx, y + ny
+
+            c_state[x, y], c_state[nx, ny] = c_state[nx, ny], c_state[x, y]
+            x, y = nx, ny
 
         return State(c_state)
 
@@ -80,7 +94,7 @@ class NPuzzleInstance:
 
         for i in range(self.m):
             for j in range(self.n):
-                if some_state[i, j] != self.goal_state[i, j]:
+                if some_state[i, j] != 0 and some_state[i, j] != self.goal_state[i, j]:
 
                     g_i, g_j = self.goal_state.get_indexes(some_state[i, j])
 
