@@ -46,7 +46,7 @@ class NPuzzleInstance:
         c_state = np.roll(c_state, -1)
 
         x, y = self.m-1, self.n-1
-        for _ in range(self.m * self.n * 100):
+        for _ in range(self.m * self.n * 10):
 
             n_idx = np.random.choice([i for i in range(len(self.neighbors_indexes))])
             nx, ny = self.neighbors_indexes[n_idx]
@@ -145,6 +145,12 @@ class NPuzzleInstance:
             elif (x, y + 1) == (nx, ny): self.solution_moves[k] = '>'
             elif (x + 1, y) == (nx, ny): self.solution_moves[k] = 'v'
             elif (x, y - 1) == (nx, ny): self.solution_moves[k] = '<'
+
+    def reset(self):
+        self.solution_moves = None
+        self.solution_states = None
+        self.current_state = self.initial_state
+        self.spent_time = 0
 
     def __str__(self):
 

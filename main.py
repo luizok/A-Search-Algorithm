@@ -120,6 +120,7 @@ if __name__ == '__main__':
                 print('NOT FOUND')
 
             print('')
+            P.reset()
 
     except:
         print('Usage: {} n_rows n_cols'.format(sys.argv[0]))
