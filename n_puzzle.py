@@ -15,6 +15,9 @@ class NPuzzleInstance:
         self.m = m
         self.n = n if n else m  # if n is None, set n = m
         self.neighbors_indexes = [(-1, 0), (0, 1), (1, 0), (0, -1)]
+        self.solution_states = None
+        self.solution_moves = None
+        self.spent_time = 0
 
         # If user wanna pass an especific goal_state
         if goal_state:
@@ -110,6 +113,24 @@ class NPuzzleInstance:
                     neigh.heuristic_value = self.heuristic(neigh)
 
                     yield neigh
+
+    def get_solution(self):
+
+        return self.solution_states, self.solution_moves, self.spent_time
+
+    def build_solution(self, solution):
+
+        self.solution_states = solution
+        self.solution_moves = [None for _ in range(len(solution)-1)]
+
+        for k in range(len(self.solution_states)-1):
+            x, y = self.solution_states[k].get_indexes(0)
+            nx, ny = self.solution_states[k+1].get_indexes(0)
+
+            if   (x - 1, y) == (nx, ny): self.solution_moves[k] = '^'
+            elif (x, y + 1) == (nx, ny): self.solution_moves[k] = '>'
+            elif (x + 1, y) == (nx, ny): self.solution_moves[k] = 'v'
+            elif (x, y - 1) == (nx, ny): self.solution_moves[k] = '<'
 
     def __str__(self):
 
